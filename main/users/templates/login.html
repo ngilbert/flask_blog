@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Login</h1>
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post" action="{{ request.url or url_for('users.login') }}">
+        <dl>
+            {{ render_field(form.email, size="30") }}
+            {{ render_field(form.password, size="30") }}
+        </dl>
+        <p><input type="submit" value="Submit"></p>
+        <a href="{{ url_for('users.register') }}">register</a>
+    </form>
+
+{% endblock %}

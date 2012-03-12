@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>New Blog Post</h1>
+
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post" action="{{ url_for('blog.new') }}">
+        <dl>
+            {{ render_field(form.title, size="30") }}
+            {{ render_field(form.content, cols="60", rows="20") }}
+            {{ render_field(form.published) }}
+        </dl>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+
+{% endblock %}
+

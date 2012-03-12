@@ -1,0 +1,6 @@
+config.py
+tags
+*.pyc
+*.sublime-project
+*.sublime-workspace
+*.DS_Store

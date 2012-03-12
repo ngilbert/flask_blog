@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Edit {{ post.title }}</h1>
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post" action="{{ url_for('blog.edit', post_id=post.id) }}">
+        <dl>
+            {{ render_field(form.title, size="30") }}
+            {{ render_field(form.content, cols="60", rows="20") }}
+            {{ render_field(form.published) }}
+        </dl>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+
+<h2>Delete post</h2>
+<form action="{{ url_for('blog.delete', post_id=post.id) }}" method="post">
+    <input type="submit" value="Delete post"/>
+</form>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Comment: {{ post.title }}</h1>
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post" action="{{ url_for('blog.comment', post_id=post.id) }}">
+        <dl>
+            {{ render_field(form.content, cols="60", rows="20") }}
+        </dl>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+
+{% endblock %}
