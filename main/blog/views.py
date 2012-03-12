@@ -1,8 +1,8 @@
 from flask import Blueprint, request, session, g, redirect, url_for, \
         abort, render_template, flash, current_app
 from flaskext.login import login_required, current_user
-from models import Post, Comment
-from forms import BlogPostForm, CommentForm
+from models import Post
+from forms import BlogPostForm 
 from jinja2 import TemplateNotFound
 
 blog = Blueprint('blog', __name__, template_folder='templates')
@@ -49,7 +49,6 @@ def new():
         g.db_session.add(new_blog_post)
         flash('New Blog Post Created!')
         return redirect(url_for('blog.show_posts'))
-
     try:
         return render_template('new.html', form=form, error=error)
     except TemplateNotFound:
@@ -90,25 +89,4 @@ def delete(post_id):
     """
     # TODO:  Implement delete.
     return redirect(url_for('admin'))
-
-
-@blog.route('/comment/<int:post_id>', methods=['GET', 'POST'])
-@login_required
-def comment(post_id=None):
-    """
-        Creates a comment for a blog post.
-
-        GET - Displays comment form if user is logged in.
-        POST - Writes comment to database.
-    """
-    form = CommentForm(request.form)
-    post = g.db_session.query(Post).filter_by(id=post_id).first()
-
-    if request.method == 'POST' and form.validate():
-        comment = Comment(form.content.data, current_user.get_id(), post.id)
-        g.db_session.add(comment)
-
-        return redirect(url_for('blog.view_post', post_id=post_id))
-
-    return render_template('comment.html', form=form, post=post)
 

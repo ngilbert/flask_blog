@@ -2,14 +2,15 @@ from flask import Flask, g
 from database import db_session
 import config
 from blog.views import blog
-from admin.views import admin
+from comments.views import comments 
 from users.views import users
 
 app = Flask(__name__)
 
 app.register_blueprint(users, url_prefix="/users")
 app.register_blueprint(blog, url_prefix='/blog')
-app.register_blueprint(admin, url_prefix='/admin')
+app.register_blueprint(comments, url_prefix='/comments')
+
 
 app.secret_key = config.SECRET_KEY
 app.debug = config.DEBUG
@@ -41,5 +42,5 @@ import users
 users.init_login_manager(app)
 import views
 import blog.views
-import admin.views
+import comments.views
 import users.views

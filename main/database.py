@@ -2,7 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from config import DATABASE_CONNECTION_STRING, SECRET_KEY
-import hashlib
+#from users.models import User
+#from blog.models import Post
+#from comments.models import Comment
+
 
 engine = create_engine(DATABASE_CONNECTION_STRING, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,

@@ -9,7 +9,7 @@
     <li>
     <a href="{{ url_for('blog.view_post', post_id=post.id) }}">{{ post.title }}</a>
     <a href="{{ url_for('blog.edit', post_id=post.id) }}">Edit</a>
-    <a href="{{ url_for('blog.comment', post_id=post.id ) }}">Comment</a>
+    <a href="{{ url_for('comments.comment', post_id=post.id ) }}">Comment</a>
     </li>
     {% endfor  %}
 </ul>
