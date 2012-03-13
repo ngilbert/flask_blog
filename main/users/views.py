@@ -3,8 +3,7 @@ from flask import Blueprint, request, g, redirect, url_for, \
 from flaskext.login import login_required, login_user, logout_user, current_user
 from models import User, AuthUser
 from forms import LoginForm, RegistrationForm
-import constants
-import hashlib
+import constants as USER
 
 
 
@@ -17,31 +16,6 @@ users = Blueprint('users', __name__, template_folder='templates')
 """ ---------------------------------------------------------------------------
 	F U N C T I O N S
 --------------------------------------------------------------------------- """
-def hash_password(password):
-    """
-        Hash a plain text password.
-    """
-    hashed_pw = hashlib.sha512(SECRET_KEY)
-    hashed_pw.update(password)
-    return hashed_pw.hexdigest()
-
-def generate_key(salt):
-    """
-        Creates a SHA1 hex key.
-    """
-    key = hashlib.sha1()
-    key.update(salt)
-    return key.hexdigest()
-
-def is_access_allowed(access_level):
-	"""
-		Determines if current user has access.
-
-		TODO:  Where to put this method.
-	"""
-	return current_user.role <= access_level
-
-
 @users.route('/login', methods=['GET', 'POST'])
 def login():
 	"""

@@ -1,6 +1,8 @@
 from flask import Blueprint, request, session, g, redirect, url_for, \
         abort, render_template, flash, current_app
 from flaskext.login import login_required, current_user
+from main.users import constants as USER
+from main.users.helpers import access_level_required
 from models import Post
 from forms import BlogPostForm 
 from jinja2 import TemplateNotFound
@@ -37,6 +39,7 @@ def view_post(post_id):
 
 @blog.route('/new', methods=['GET', 'POST'])
 @login_required
+@access_level_required(USER.ADMIN)
 def new():
     """
         Create a new blog post.
@@ -57,6 +60,7 @@ def new():
 
 @blog.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 @login_required
+@access_level_required(USER.ADMIN)
 def edit(post_id):
     """
         Edit a post.
@@ -83,6 +87,7 @@ def edit(post_id):
 
 @blog.route('/delete/<int:post_id>', methods=['GET', 'POST'])
 @login_required
+@access_level_required(USER.ADMIN)
 def delete(post_id):
     """
         Delete a blog post.
