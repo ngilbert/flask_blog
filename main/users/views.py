@@ -3,8 +3,8 @@ from flask import Blueprint, request, g, redirect, url_for, \
 from flaskext.login import login_required, login_user, logout_user, current_user
 from models import User, AuthUser
 from forms import LoginForm, RegistrationForm
+from jinja2 import TemplateNotFound
 import constants as USER
-
 
 
 """ ---------------------------------------------------------------------------
@@ -39,7 +39,10 @@ def login():
 		else:
 			flash(u"Invalid login credentials.")
 
-	return render_template('login.html', form=form)
+	try:
+		return render_template('login.html', form=form)
+	except TemplateNotFound:
+		abort(404)
 
 
 @users.route('/confirm/<string:key>', methods=['GET'])
@@ -63,7 +66,10 @@ def confirm(key):
 	else:
 		flash(u"Invalid confirmation key.")
 
-	return render_template('register.html', form=RegistrationForm())
+	try:
+		return render_template('register.html', form=RegistrationForm())
+	except TemplateNotFound:
+		abort(404)
 
 
 @users.route('/register', methods=['GET', 'POST'])
@@ -79,6 +85,7 @@ def register():
 		return redirect(url_for('index'))
 
 	form = RegistrationForm(request.form)
+	template_to_render = 'register.html'
 	username_exists = False
 	email_exists = False
 
@@ -93,14 +100,16 @@ def register():
 			g.db_session.add(new_user)
 			#TODO: email user with confirmation link
 			flash(u"A confirmation has been sent to your email address.  Please follow the link it contains.")
-			return render_template('register_confirm.html')
+			template_to_render = 'register_confirm.html'
 		elif email_exists is True:
-			message = u"Email address already registered."
+			flash(u"Email address already registered.")
 		elif username_exists is True:
-			message = u"Username already exists."
+			flash(u"Username already exists.")
 
-	flash(message)
-	return render_template('register.html', form=form)
+	try:
+		return render_template(template_to_render, form=form)
+	except TemplateNotFound:
+		abort(404)
 
 
 @users.route('/logout')

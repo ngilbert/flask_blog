@@ -1,11 +1,12 @@
 from flask import Blueprint, request, session, g, redirect, url_for, \
-        abort, render_template, flash, current_app
+        abort, render_template, flash 
+from jinja2 import TemplateNotFound
 from flaskext.login import login_required, current_user
 from main.users import constants as USER
 from main.users.helpers import access_level_required
 from models import Post
 from forms import BlogPostForm 
-from jinja2 import TemplateNotFound
+
 
 blog = Blueprint('blog', __name__, template_folder='templates')
 
@@ -15,7 +16,6 @@ def show_posts():
     """
         Show all blog posts.
     """
-    current_app.logger.debug('Retrieving blog posts.')
     posts = g.db_session.query(Post).all()
 
     try:

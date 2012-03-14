@@ -1,5 +1,6 @@
-from flask import Blueprint, request, session, g, redirect, url_for, \
-        abort, render_template, flash, current_app
+from flask import Blueprint, request, g, redirect, url_for, \
+        abort, render_template, flash
+from jinja2 import TemplateNotFound
 from flaskext.login import login_required, current_user
 from main.blog.models import Post
 from models import Comment
@@ -26,4 +27,7 @@ def comment(post_id=None):
 
         return redirect(url_for('blog.view_post', post_id=post_id))
 
-    return render_template('comment.html', form=form, post=post)
+    try:
+        return render_template('comment.html', form=form, post=post)
+    except TemplateNotFound:
+        abort(404)
