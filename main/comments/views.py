@@ -2,6 +2,8 @@ from flask import Blueprint, request, g, redirect, url_for, \
         abort, render_template, flash
 from jinja2 import TemplateNotFound
 from flaskext.login import login_required, current_user
+from main.users import constants as USER
+from main.users.helpers import access_level_required
 from main.blog.models import Post
 from models import Comment
 from forms import CommentForm
@@ -29,5 +31,19 @@ def comment(post_id=None):
 
     try:
         return render_template('comment.html', form=form, post=post)
+    except TemplateNotFound:
+        abort(404)
+
+
+@comments.route('/manage', methods=['GET'])
+@login_required
+@access_level_required(USER.ADMIN)
+def manage():
+    """
+        Manage user comments.
+    """
+
+    try:
+        return render_template('manage.html')
     except TemplateNotFound:
         abort(404)

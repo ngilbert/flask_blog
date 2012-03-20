@@ -37,6 +37,21 @@ def view_post(post_id):
         abort(404)
 
 
+@blog.route('/manage', methods=['GET'])
+@login_required
+@access_level_required(USER.ADMIN)
+def manage():
+    """
+        Manage blog posts.
+    """
+    posts = g.db_session.query(Post).all()
+
+    try:
+        return render_template('manage.html', posts=posts)
+    except TemplateNotFound:
+        abort(404)
+
+
 @blog.route('/new', methods=['GET', 'POST'])
 @login_required
 @access_level_required(USER.ADMIN)

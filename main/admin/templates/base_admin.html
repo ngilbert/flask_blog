@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    {% block head %}
+    <link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='reset.css') }}">
+    <link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='text.css') }}">
+    <link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='960_16_col.css') }}">
+    <link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+    <div class="container_16">
+        <h1 class="grid_5">Site Management</h1>
+    </div>
+
+    <div class="clear">&nbsp</div>
+
+    <div class="container_16">
+        <div class="grid_16">
+            <div id="navcontainer">
+                <ul id="navlist">
+                    <li><a href="{{ url_for('blog.manage') }}">Blog</a></li>
+                    <li><a href="{{ url_for('comments.manage') }}">Comments</a></li>
+                    <li><a href="{{ url_for('users.manage') }}">Users</a></li>
+                    <li><a href="{{ url_for('users.logout') }}">Logout</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="clear">&nbsp</div>
+
+    <div class="container_16">
+        <div class="grid_16">
+            {% for message in get_flashed_messages() %}
+                <div class=flash>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container_16">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

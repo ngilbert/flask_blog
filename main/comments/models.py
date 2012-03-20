@@ -13,6 +13,7 @@ class Comment(Base):
     created = Column(DateTime, default=functions.current_timestamp())
     user_id = Column(Integer, ForeignKey('users.id'))
     post_id = Column(Integer, ForeignKey('posts.id'))
+    published = Column(Boolean, default=False)
 
     def __init__(self, content, user_id, post_id):
         self.content = content

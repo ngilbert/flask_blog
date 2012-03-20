@@ -1,12 +1,14 @@
 from flask import Flask, g
 from database import db_session
 import config
+from admin.views import admin
 from blog.views import blog
 from comments.views import comments 
 from users.views import users
 
 app = Flask(__name__)
 
+app.register_blueprint(admin, url_prefix="/admin")
 app.register_blueprint(users, url_prefix="/users")
 app.register_blueprint(blog, url_prefix='/blog')
 app.register_blueprint(comments, url_prefix='/comments')
@@ -41,6 +43,7 @@ def shutdown_session(exception=None):
 import users
 users.init_login_manager(app)
 import views
+import admin.views
 import blog.views
 import comments.views
 import users.views

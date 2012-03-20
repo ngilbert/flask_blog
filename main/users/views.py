@@ -5,6 +5,7 @@ from models import User, AuthUser
 from forms import LoginForm, RegistrationForm
 from jinja2 import TemplateNotFound
 import constants as USER
+from helpers import access_level_required
 
 
 """ ---------------------------------------------------------------------------
@@ -124,3 +125,16 @@ def logout():
 	flash(u"Logged out.")
 	return redirect(url_for('index'))
 
+
+@users.route('/manage', methods=['GET'])
+@login_required
+@access_level_required(USER.ADMIN)
+def manage():
+	"""
+		Manage user accounts.
+	"""
+
+	try:
+		return render_template('manage.html')
+	except TemplateNotFound:
+		abort(404)
