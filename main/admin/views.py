@@ -10,19 +10,19 @@ from main.comments.models import Comment
 admin = Blueprint('admin', __name__, template_folder='templates', static_folder='static')
 
 @admin.route('/')
-#@login_required
-#@access_level_required(USER.ADMIN)
+@login_required
+@access_level_required(USER.ADMIN)
 def index():
 	"""
 		Display the main admin console.
 	"""
 	posts = g.db_session.query(Post).filter_by(published=False).all()
-	comments = g.db_session.query(Comment).filter_by(published=False).all()
+	comments = g.db_session.query(Comment).filter_by(approved=False).all()
 
 
 	flash('Welcome!')
 
 	try:
-		return render_template('index.html', posts=posts, comments=comments)
+		return render_template('admin_index.html', posts=posts, comments=comments)
 	except TemplateNotFound:
 		abort(404)

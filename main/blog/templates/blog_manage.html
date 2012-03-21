@@ -1,0 +1,71 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+
+<div class="container_16">
+    <div class="grid_16">
+        <h5 class="admin_heading">- Unpublished blog posts</h5>
+    </div>
+</div>
+
+{% for unpublished_post in unpublished_posts %}
+<div class="container_16">
+<div class="review">
+    <div class="container_16">
+        <div class="grid_1"><b>Title:</b></div>
+        <div class="grid_15"><a href="{{ url_for('blog.view_post', post_id=unpublished_post.id) }}">{{ unpublished_post.title }}</a></div>
+    </div>
+    <div class="container_16">
+        <div class="grid_1"><b>Created:</b></div>
+        <div class="grid_15">{{ unpublished_post.created }}</div>
+    </div>
+    <div class="container_16">
+        <div class="grid_1"><b>Content:</b></div>
+        <div class="grid_15">{{ unpublished_post.content }}</div>
+    </div>
+    <div class="container_16">
+        <div class="grid_1">&nbsp</div>
+        <div class="grid_3">
+            <a href="{{ url_for('blog.publish', post_id=unpublished_post.id) }}">Publish</a> / 
+            <a href="{{ url_for('blog.edit', post_id=unpublished_post.id) }}">Edit</a> / 
+            <a href="{{ url_for('blog.delete', post_id=unpublished_post.id) }}">Delete</a>
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+
+
+<div class="container_16">
+    <div class="grid_16">
+        <h5 class="admin_heading">- Published blog posts</h5>
+    </div>
+</div>
+
+{% for published_post in published_posts %}
+<div class="container_16">
+<div class="review">
+    <div class="container_16">
+        <div class="grid_1"><b>Title:</b></div>
+        <div class="grid_15"><a href="{{ url_for('blog.view_post', post_id=published_post.id) }}">{{ published_post.title }}</a></div>
+    </div>
+    <div class="container_16">
+        <div class="grid_1"><b>Created:</b></div>
+        <div class="grid_15">{{ published_post.created }}</div>
+    </div>
+    <div class="container_16">
+        <div class="grid_1"><b>Content:</b></div>
+        <div class="grid_15">{{ published_post.content }}</div>
+    </div>
+    <div class="container_16">
+        <div class="grid_1">&nbsp</div>
+        <div class="grid_3">
+            <a href="{{ url_for('blog.edit', post_id=published_post.id) }}">Edit</a> / 
+            <a href="{{ url_for('blog.delete', post_id=published_post.id) }}">Delete</a>
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+
+{% endblock %}

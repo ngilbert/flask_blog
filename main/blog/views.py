@@ -19,7 +19,7 @@ def show_posts():
     posts = g.db_session.query(Post).all()
 
     try:
-        return render_template('index.html', posts=posts)
+        return render_template('blog_index.html', posts=posts)
     except TemplateNotFound:
         abort(404)
 
@@ -32,7 +32,7 @@ def view_post(post_id):
     post = g.db_session.query(Post).filter_by(id=post_id).first()
 
     try:
-        return render_template('view.html', post=post)
+        return render_template('blog_view.html', post=post)
     except TemplateNotFound:
         abort(404)
 
@@ -44,12 +44,27 @@ def manage():
     """
         Manage blog posts.
     """
-    posts = g.db_session.query(Post).all()
+    unpublished_posts = g.db_session.query(Post).filter_by(published=False).all()
+    published_posts = g.db_session.query(Post).filter_by(published=True).all()
 
     try:
-        return render_template('manage.html', posts=posts)
+        return render_template('blog_manage.html', published_posts=published_posts, unpublished_posts=unpublished_posts)
     except TemplateNotFound:
         abort(404)
+
+
+@blog.route('/publish', methods=['GET'])
+@login_required
+@access_level_required(USER.ADMIN)
+def publish(post_id):
+    """
+        Mark a post as published.
+    """
+    post = g.db_session.query(Post).filter_by(id=post_id).first()
+    post.published = True
+
+    flash('Blog post published')
+    return redirect(url_for('blog.manage'))
 
 
 @blog.route('/new', methods=['GET', 'POST'])
@@ -68,7 +83,7 @@ def new():
         flash('New Blog Post Created!')
         return redirect(url_for('blog.show_posts'))
     try:
-        return render_template('new.html', form=form, error=error)
+        return render_template('blog_new.html', form=form, error=error)
     except TemplateNotFound:
         abort(404)
 
@@ -95,7 +110,7 @@ def edit(post_id):
     form.published.data = post.published
 
     try:
-        return render_template('edit.html', form=form, post=post)
+        return render_template('blog_edit.html', form=form, post=post)
     except TemplateNotFound:
         abort(404)
 

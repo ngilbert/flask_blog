@@ -1,0 +1,76 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+
+    <div class="container_16">
+        <div class="grid_16">
+            <h5 class="admin_heading">Unpublished blog posts</h5>
+        </div>
+    </div>
+
+    {% for post in posts %}
+    <div class="container_16">
+    <div class="review">
+        <div class="container_16">
+            <div class="grid_1"><b>Title:</b></div>
+            <div class="grid_15"><a href="{{ url_for('blog.view_post', post_id=post.id) }}">{{ post.title }}</a></div>
+        </div>
+        <div class="container_16">
+            <div class="grid_1"><b>Created:</b></div>
+            <div class="grid_15">{{ post.created }}</div>
+        </div>
+        <div class="container_16">
+            <div class="grid_1"><b>Content:</b></div>
+            <div class="grid_15">{{ post.content }}</div>
+        </div>
+        <div class="container_16">
+            <div class="grid_1">&nbsp</div>
+            <div class="grid_3">
+                <a href="{{ url_for('blog.publish', post_id=post.id) }}">Publish</a> / 
+                <a href="{{ url_for('blog.edit', post_id=post.id) }}">Edit</a> / 
+                <a href="{{ url_for('blog.delete', post_id=post.id) }}">Delete</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+
+    <div class="container_16">
+        <div class="grid_16">
+            <h5 class="admin_heading">Comments awaiting review</h5>
+        </div>
+    </div>
+
+    {% for comment in comments %}
+    <div class="container_16">
+    <div class="review">
+        <div class="container_16">
+            <div class="grid_2"><b>Blog Post Title:</b></div>
+            <div class="grid_14">{{ comment.post.title }}</div>
+        </div>
+        <div class="container_16">
+            <div class="grid_2"><b>Created:</b></div>
+            <div class="grid_14">{{ comment.created }}</div>
+        </div>
+        <div class="container_16">
+            <div class="grid_2"><b>Content:</b></div>
+            <div class="grid_14">{{ comment.content }}</div>
+        </div>
+        <div class="container_16">
+            <div class="grid_2">&nbsp</div>
+            <div class="grid_3">
+                <a href="{{ url_for('comments.approve', comment_id=comment.id) }}">Approve</a> / 
+                <a href="{{ url_for('comments.delete', comment_id=comment.id) }}">Delete</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+
+    <div class="container_16">
+        <div class="grid_16">
+            <h5 class="admin_heading">New users</h5>
+        </div>
+    </div>
+
+{% endblock %}

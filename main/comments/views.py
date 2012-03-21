@@ -30,7 +30,7 @@ def comment(post_id=None):
         return redirect(url_for('blog.view_post', post_id=post_id))
 
     try:
-        return render_template('comment.html', form=form, post=post)
+        return render_template('comment_new.html', form=form, post=post)
     except TemplateNotFound:
         abort(404)
 
@@ -42,8 +42,38 @@ def manage():
     """
         Manage user comments.
     """
+    comments = g.db_session.query(Comment).filter_by(approved=False).all()
 
     try:
-        return render_template('manage.html')
+        return render_template('comments_manage.html', comments=comments)
     except TemplateNotFound:
         abort(404)
+
+
+@comments.route('/approve', methods=['GET'])
+@login_required
+@access_level_required(USER.ADMIN)
+def approve(comment_id):
+    """
+        Approve a comment.
+    """
+    comment = g.db_session.query(Comment).filter_by(id=comment_id).first()
+    comment.approved = True
+
+    flash('Comment approved')
+    return redirect(url_for('comments.manage'))
+
+
+@comments.route('/delete', methods=['GET'])
+@login_required
+@access_level_required(USER.ADMIN)
+def delete(comment_id):
+    """
+        Delete a comment.
+    """
+    comment = g.db_session.query(Comment).filter_by(id=comment_id).first()
+    g.db_session.delete(comment)
+
+    flash('Comment deleted')
+    return redirect(url_for('comments.manage'))
+

@@ -24,7 +24,7 @@ padding-bottom: 2px;
 
 #navlist a:link#current, #navlist a:visited#current, #navlist a:hover
 {
-border-bottom: 4px solid #000;
+border-bottom: 4px solid #CEE5F5;
 padding-bottom: 2px;
 background: transparent;
 color: #000;
@@ -36,3 +36,16 @@ h5 { margin: 10px 0 10px 0; }
 .flash          { background: #CEE5F5; padding: 0.5em;
                   border: 1px solid #AACBE2; }
 .error          { background: #F0D6D6; padding: 0.5em; }
+
+.admin_heading	{ border-bottom: 0px solid #333;
+                  padding: 0.3em; background: white; }
+.review			{ border: 5px solid #fff;
+				  padding: 0.8em; background: white; }
+.review:hover	{ border: 5px solid #fff;
+				  padding: 0.8em; background: #eee; }
+.review a, a:link, a:visited
+{
+	color: #555;
+	text-decoration: none;
+}
+.review a:hover	{ text-decoration: underline;}
