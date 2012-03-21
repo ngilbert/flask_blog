@@ -53,7 +53,7 @@ def manage():
         abort(404)
 
 
-@blog.route('/publish', methods=['GET'])
+@blog.route('/publish/<int:post_id>', methods=['GET'])
 @login_required
 @access_level_required(USER.ADMIN)
 def publish(post_id):

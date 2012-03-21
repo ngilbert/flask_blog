@@ -50,7 +50,7 @@ def manage():
         abort(404)
 
 
-@comments.route('/approve', methods=['GET'])
+@comments.route('/approve/<int:comment_id>', methods=['GET'])
 @login_required
 @access_level_required(USER.ADMIN)
 def approve(comment_id):
@@ -64,7 +64,7 @@ def approve(comment_id):
     return redirect(url_for('comments.manage'))
 
 
-@comments.route('/delete', methods=['GET'])
+@comments.route('/delete/<int:comment_id>', methods=['GET'])
 @login_required
 @access_level_required(USER.ADMIN)
 def delete(comment_id):
